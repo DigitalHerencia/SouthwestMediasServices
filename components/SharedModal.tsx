@@ -54,12 +54,12 @@ export default function SharedModal({
           }}
       >
           <div
-              className="relative z-50 flex h-full w-full max-w-7xl items-center xl:h-auto"
+              className="relative z-50 flex aspect-[3/2] w-full max-w-7xl items-center wide:h-full xl:taller-than-854:h-auto"
               {...handlers}
           >
               {/* Main image */}
-              <div className="flex h-full w-full items-center justify-center overflow-hidden">
-                  <div className="relative flex h-full w-full items-center justify-center">
+              <div className="h-full w-full">
+                  <div className="relative flex items-center justify-center">
                       <AnimatePresence initial={false} custom={direction}>
                           <motion.div
                               key={index}
@@ -68,7 +68,7 @@ export default function SharedModal({
                               initial="enter"
                               animate="center"
                               exit="exit"
-                              className="absolute h-full w-full"
+                              className="absolute"
                           >
                               <Image
                                   src={`https://res.cloudinary.com/${
@@ -84,7 +84,6 @@ export default function SharedModal({
                                   priority
                                   alt="Next.js Conf image"
                                   onLoad={() => setLoaded(true)}
-                                  className="h-full w-full object-contain" // Preserve aspect ratio without cropping
                               />
                           </motion.div>
                       </AnimatePresence>
@@ -95,12 +94,15 @@ export default function SharedModal({
               <div className="absolute inset-0 mx-auto flex max-w-7xl items-center justify-center">
                   {/* Buttons */}
                   {loaded && (
-                      <div className="relative h-full w-full">
+                      <div className="relative aspect-[3/2] max-h-full w-full">
                           {navigation && (
                               <>
                                   {index > 0 && (
                                       <button
                                           className="absolute left-3 top-[calc(50%-16px)] rounded-full bg-black/50 p-3 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white focus:outline-none"
+                                          style={{
+                                              transform: "translate3d(0, 0, 0)",
+                                          }}
                                           onClick={() =>
                                               changePhotoId(index - 1)
                                           }
@@ -111,6 +113,9 @@ export default function SharedModal({
                                   {index + 1 < images.length && (
                                       <button
                                           className="absolute right-3 top-[calc(50%-16px)] rounded-full bg-black/50 p-3 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white focus:outline-none"
+                                          style={{
+                                              transform: "translate3d(0, 0, 0)",
+                                          }}
                                           onClick={() =>
                                               changePhotoId(index + 1)
                                           }
@@ -172,7 +177,7 @@ export default function SharedModal({
                       <div className="fixed inset-x-0 bottom-0 z-40 overflow-hidden bg-gradient-to-b from-black/0 to-black/60">
                           <motion.div
                               initial={false}
-                              className="mx-auto mb-6 mt-6 flex h-14"
+                              className="mx-auto mb-6 mt-6 flex aspect-[3/2] h-14"
                           >
                               <AnimatePresence initial={false}>
                                   {filteredImages.map(
@@ -217,7 +222,7 @@ export default function SharedModal({
                                                       id === index
                                                           ? "brightness-110 hover:brightness-110"
                                                           : "brightness-50 contrast-125 hover:brightness-75"
-                                                  } h-full object-cover transition`}
+                                                  } h-full transform object-cover transition`}
                                                   src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_180/${public_id}.${format}`}
                                               />
                                           </motion.button>
