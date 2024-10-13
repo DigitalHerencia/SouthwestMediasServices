@@ -1,31 +1,118 @@
-# Next.js & Cloudinary example app
+# 📸 Next.js Image Gallery with Cloudinary
 
-This example shows how to create an image gallery site using Next.js, [Cloudinary](https://cloudinary.com), and [Tailwind](https://tailwindcss.com).
+[![Next.js](https://img.shields.io/badge/Next.js-14.0.0-blue.svg?style=flat&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.9-blue.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![Cloudinary](https://img.shields.io/badge/Cloudinary-Enabled-yellow.svg?style=flat&logo=cloudinary)](https://cloudinary.com/)
+[![License](https://img.shields.io/github/license/yourusername/your-repo.svg)](./LICENSE)
 
-## Deploy your own
+A modern, responsive image gallery built with **Next.js**, **Cloudinary**, and **TypeScript**, featuring modal lightbox functionality, optimized image loading with blur placeholders, and seamless state management for user navigation.
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or view the demo [here](https://nextconf-images.vercel.app/)
+## 🖼️ Features
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-cloudinary&project-name=nextjs-image-gallery&repository-name=with-cloudinary&env=NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,CLOUDINARY_API_KEY,CLOUDINARY_API_SECRET,CLOUDINARY_FOLDER&envDescription=API%20Keys%20from%20Cloudinary%20needed%20to%20run%20this%20application.)
+- **Optimized Images**: Integrated with [Cloudinary](https://cloudinary.com) for automatic image optimization.
+- **Blur Placeholders**: Enhance UX with blurred image placeholders during image loading.
+- **Responsive Gallery**: Fully responsive grid layout for displaying images.
+- **Modal Lightbox**: View images in a modal popup for full-screen mode.
+- **State Preservation**: Scroll back to the last viewed photo with persistent state.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## 🚀 Demo
 
-## How to use
+Check out a live demo of the project:  
+**[Live Demo](https://southwestmediaservices.vercel.app/p)**
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example::
+---
 
-```bash
- npx create-next-app --example with-cloudinary nextjs-image-gallery
+## ⚙️ Installation
+
+1. **Clone the repository:**
+  
+   ```
+   git clone https://github.com/DigitalHerencia/southwestmediaservices
+   cd southwestmediaservices
+   ```
+
+2. **Install dependencies:**
+
+    ```
+    npm install
+    ```
+        or
+    ```
+    yarn install
+    ```
+
+3. **Set up environment variables:**
+
+    Create a .env.local file in the root directory and add your Cloudinary credentials:
+
+    ```
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your-cloudinary-name
+    CLOUDINARY_API_KEY=your-api-key
+    CLOUDINARY_API_SECRET=your-api-secret
+    CLOUDINARY_FOLDER=your-folder-name
+     ```
+
+4. **Run the development server:**
+
+    ```
+    npm run dev
+    ```
+
+Open `http://localhost:3000` to view the application in your browser.
+
+## 🛠️ Usage
+
+To add images, simply upload them to your Cloudinary account in the folder defined by `CLOUDINARY_FOLDER`.
+
+The application will fetch these images automatically from Cloudinary using their API.
+Images will display in a responsive grid and can be viewed in full-screen via the modal.
+ 
+## 📦 Deployment
+
+To deploy the project to Vercel, follow these steps:
+
+1. Push your repository to GitHub.
+
+2. Sign in to Vercel, and import your repository.
+
+3. Vercel will automatically set up your project and deploy it.
+
+## 📚 Technologies
+
+- Next.js - React framework with hybrid static & server rendering
+- TypeScript - Type-safe JavaScript
+- Cloudinary - Cloud-based image and video management
+- Tailwind CSS - Utility-first CSS framework
+
+## 💻 Local Development
+
+To start the app in development mode, run the following:
+
+```
+npm run dev
 ```
 
-```bash
-yarn create next-app --example with-cloudinary nextjs-image-gallery
-```
+This will start the development server on http://localhost:3000.
 
-```bash
-pnpm create next-app --example with-cloudinary nextjs-image-gallery
-```
+## 📝 License
 
-## References
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-- Cloudinary API: https://cloudinary.com/documentation/transformation_reference
+## 🙌 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (git checkout -b feature/your-feature).
+3. Commit your changes (git commit -m 'Add your feature').
+4. Push to the branch (git push origin feature/your-feature).
+5. Open a pull request.
+
+## 👏 Acknowledgments
+
+- Thanks to Vercel for hosting the demo.
+- Thanks to Cloudinary for image optimization services.
+
+## 📧 Contact
+
+For any inquiries, feel free to reach out at DigitalHerencia@Outlook.com.
