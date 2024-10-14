@@ -42,7 +42,7 @@ export default async function handler(
 
             // Send the email using SendGrid
             const msg = {
-                to: "digitalherencia@outlook.com", // Change this to the recipient email address
+                to: "southwestmediaservices@gmail.com", // Change this to the recipient email address
                 from: "digitalherencia@outlook.com", // The sender's email address
                 subject: "New Photography Booking Request",
                 html: emailContent,
