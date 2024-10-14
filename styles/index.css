@@ -7,3 +7,6 @@
     clip-path: inset(0.6px);
   }
 }
+.button-transform {
+  transform: translate3d(0, 0, 0);
+}
