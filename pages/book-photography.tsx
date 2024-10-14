@@ -1,13 +1,50 @@
 import { useState } from "react"
 import Image from "next/image"
-import { type } from "os"
+import { useRouter } from "next/router"
 
 export default function BookPhotography() {
     const [selectedPackage, setSelectedPackage] = useState("standard")
+    const router = useRouter() // Initialize the router
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        // Handle form submission logic here
+
+        // Collect the form data with proper typing
+        const formData = {
+            name: (event.target as HTMLFormElement).name.valueOf,
+            email: (event.target as HTMLFormElement).email.value,
+            phone: (event.target as HTMLFormElement).phone.value,
+            eventType: (event.target as HTMLFormElement).eventType.value,
+            eventDate: (event.target as HTMLFormElement).eventDate.value,
+            eventTime: (event.target as HTMLFormElement).eventTime.value,
+            eventLocation: (event.target as HTMLFormElement).eventLocation
+                .value,
+            packageSelected: selectedPackage,
+            additionalServices: [
+                (event.target as HTMLFormElement).Slideshow.checked &&
+                    "Slideshow",
+                (event.target as HTMLFormElement)["Second Photographer"]
+                    .checked && "Second Photographer",
+                (event.target as HTMLFormElement).Video.checked && "Video",
+            ].filter(Boolean),
+            agreement: (event.target as HTMLFormElement).terms.checked,
+        }
+
+        // Send the form data to the API route
+        const response = await fetch("/api/submitForm", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        })
+
+        if (response.ok) {
+            alert("Form submitted successfully!")
+            router.push("/")
+        } else {
+            alert("There was an error submitting the form.")
+        }
     }
 
     return (
@@ -49,32 +86,46 @@ export default function BookPhotography() {
                         </h1>
                     </label>
                     <div>
-                        <label className="mb-2 block font-medium text-white">
+                        <label
+                            htmlFor="name"
+                            className="mb-2 block font-medium text-white"
+                        >
                             Your Name
                         </label>
                         <input
                             type="text"
+                            id="name"
+                            name="name"
                             className="block w-full rounded-md border border-gray-200 bg-[#5f5f5f] p-3 text-white/75"
                             required
                         />
                     </div>
                     <div>
-                        <label className="mb-2 block font-medium text-white">
+                        <label
+                            htmlFor="email"
+                            className="mb-2 block font-medium text-white"
+                        >
                             Email Address
                         </label>
                         <input
                             type="email"
+                            id="email"
+                            name="email"
                             className="block w-full rounded-md border border-gray-200 bg-[#5f5f5f] p-3 text-white/75"
                             required
                         />
                     </div>
-
                     <div>
-                        <label className="mb-2 block font-medium text-white">
+                        <label
+                            htmlFor="phone"
+                            className="mb-2 block font-medium text-white"
+                        >
                             Phone Number
                         </label>
                         <input
                             type="tel"
+                            id="phone"
+                            name="phone"
                             className="block w-full rounded-md border border-gray-200 bg-[#5f5f5f] p-3 text-white/75"
                             required
                         />
@@ -87,11 +138,16 @@ export default function BookPhotography() {
                         </h1>
                     </label>
                     <div>
-                        <label className="mb-2 block font-medium text-white">
+                        <label
+                            htmlFor="eventType"
+                            className="mb-2 block font-medium text-white"
+                        >
                             Type of Event
                         </label>
                         <select
-                            className="block w-full appearance-none rounded-md border  border-gray-200 bg-[#5f5f5f] p-3 text-white/75"
+                            id="eventType"
+                            name="eventType"
+                            className="block w-full appearance-none rounded-md border border-gray-200 bg-[#5f5f5f] p-3 text-white/75"
                             required
                         >
                             <option value="wedding">Wedding</option>
@@ -102,31 +158,46 @@ export default function BookPhotography() {
                         </select>
                     </div>
                     <div>
-                        <label className="mb-2 block font-medium text-white">
+                        <label
+                            htmlFor="eventDate"
+                            className="mb-2 block font-medium text-white"
+                        >
                             Event Date
                         </label>
                         <input
                             type="date"
+                            id="eventDate"
+                            name="eventDate"
                             className="block w-full rounded-md border border-gray-200 bg-[#5f5f5f] p-3 text-white/75"
                             required
                         />
                     </div>
                     <div>
-                        <label className="mb-2 block font-medium text-white">
+                        <label
+                            htmlFor="eventTime"
+                            className="mb-2 block font-medium text-white"
+                        >
                             Event Time
                         </label>
                         <input
                             type="time"
+                            id="eventTime"
+                            name="eventTime"
                             className="block w-full rounded-md border border-gray-200 bg-[#5f5f5f] p-3 text-white/75"
                             required
                         />
                     </div>
                     <div>
-                        <label className="mb-2 block font-medium text-white">
+                        <label
+                            htmlFor="eventLocation"
+                            className="mb-2 block font-medium text-white"
+                        >
                             Event Location
                         </label>
                         <input
                             type="text"
+                            id="eventLocation"
+                            name="eventLocation"
                             className="block w-full rounded-md border border-gray-200 bg-[#5f5f5f] p-3 text-white/75"
                             required
                         />
@@ -139,8 +210,6 @@ export default function BookPhotography() {
                                 <strong>3. SELECT YOUR PACKAGE</strong>
                             </h1>
                         </label>
-
-                        {/* Use grid to create a three-column layout */}
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                             {/* Pro Package */}
                             <div className="space-y-2">
@@ -166,10 +235,9 @@ export default function BookPhotography() {
                                 <ul className="ml-7 list-disc text-white/75">
                                     <li>2 hours of coverage</li>
                                     <li>100 edited photos</li>
-                                    <li>online photo gallery</li>
+                                    <li>Online photo gallery</li>
                                 </ul>
                             </div>
-
                             {/* Pro+ Package */}
                             <div className="space-y-2">
                                 <div className="flex items-center">
@@ -194,11 +262,10 @@ export default function BookPhotography() {
                                 <ul className="ml-7 list-disc text-white/75">
                                     <li>4 hours of coverage</li>
                                     <li>250 edited photos</li>
-                                    <li>online photo gallery</li>
-                                    <li>photo usb drive</li>
+                                    <li>Online photo gallery</li>
+                                    <li>Photo USB drive</li>
                                 </ul>
                             </div>
-
                             {/* ProXL Package */}
                             <div className="space-y-2">
                                 <div className="flex items-center">
@@ -223,9 +290,9 @@ export default function BookPhotography() {
                                 <ul className="ml-7 list-disc text-white/75">
                                     <li>8 hours of coverage</li>
                                     <li>500 edited photos</li>
-                                    <li>online photo gallery</li>
-                                    <li>photo usb drive</li>
-                                    <li>custom photobook</li>
+                                    <li>Online photo gallery</li>
+                                    <li>Photo USB drive</li>
+                                    <li>Custom photobook</li>
                                 </ul>
                             </div>
                         </div>
@@ -251,10 +318,6 @@ export default function BookPhotography() {
                                     className="ml-3 text-white"
                                 >
                                     Image Slideshow - $75
-                                    <span className="block text-sm text-white/75">
-                                        Image slideshow of event highlights for
-                                        social media
-                                    </span>
                                 </label>
                             </div>
                             <div className="flex items-center">
@@ -269,9 +332,6 @@ export default function BookPhotography() {
                                     className="ml-3 text-white"
                                 >
                                     Second Photographer - $150
-                                    <span className="block text-sm text-white/75">
-                                        Additional photographer for the event
-                                    </span>
                                 </label>
                             </div>
                             <div className="flex items-center">
@@ -286,10 +346,6 @@ export default function BookPhotography() {
                                     className="ml-3 text-white"
                                 >
                                     Videography - $250
-                                    <span className="block text-sm text-white/75">
-                                        Professionally recorded and edited recap
-                                        video of the event
-                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -298,9 +354,7 @@ export default function BookPhotography() {
                     {/* Disclaimer and Terms of Service */}
                     <div className="rounded-md border border-gray-200 bg-[#151515] p-4">
                         <label className="mb-2 block text-xl font-semibold text-white">
-                            <h1>
-                                <strong>USER AGREEMENT</strong>
-                            </h1>
+                            <strong>USER AGREEMENT</strong>
                         </label>
                         <div className="mt-4 flex items-center">
                             <input
@@ -311,7 +365,7 @@ export default function BookPhotography() {
                                 className="h-4 w-4 border-gray-200 bg-[#161616] text-white/75 focus:ring-[#161616]"
                             />
                             <label htmlFor="terms" className="ml-3 text-white">
-                                I have read and agree to the &#160;
+                                I have read and agree to the&nbsp;
                                 <a
                                     href="/terms-of-service"
                                     target="_blank"
@@ -320,7 +374,7 @@ export default function BookPhotography() {
                                 >
                                     Terms of Service
                                 </a>
-                                &#160; and &#160;
+                                &nbsp;and&nbsp;
                                 <a
                                     href="/disclaimer"
                                     target="_blank"
