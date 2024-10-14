@@ -8,17 +8,21 @@ function forceDownload(blobUrl: string, filename: string) {
 }
 
 export default function downloadPhoto(url: string, filename: string) {
-  if (!filename) filename = url.split("\\").pop().split("/").pop();
-  fetch(url, {
-    headers: new Headers({
-      Origin: location.origin,
-    }),
-    mode: "cors",
-  })
-    .then((response) => response.blob())
-    .then((blob) => {
-      let blobUrl = window.URL.createObjectURL(blob);
-      forceDownload(blobUrl, filename);
+    fetch(url, {
+        headers: new Headers({
+            Origin: location.origin,
+        }),
+        mode: "cors",
     })
-    .catch((e) => console.error(e));
+        .then((response) => response.blob())
+        .then((blob) => {
+            let blobUrl = window.URL.createObjectURL(blob)
+            if (filename) {
+                forceDownload(blobUrl, filename)
+            } else {
+                // handle the case where filename is undefined
+                console.error("Filename is undefined")
+            }
+        })
+        .catch((e) => console.error(e))
 }

@@ -31,47 +31,53 @@ const Home: NextPage = ({ currentPhoto }: { currentPhoto: ImageProps }) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const results = await getResults();
+    const results = await getResults()
 
-  let reducedResults: ImageProps[] = [];
-  let i = 0;
-  for (let result of results.resources) {
-    reducedResults.push({
-      id: i,
-      height: result.height,
-      width: result.width,
-      public_id: result.public_id,
-      format: result.format,
-    });
-    i++;
-  }
+    let reducedResults: ImageProps[] = []
+    let i = 0
+    for (let result of results.resources) {
+        reducedResults.push({
+            id: i,
+            height: result.height,
+            width: result.width,
+            public_id: result.public_id,
+            format: result.format,
+        })
+        i++
+    }
 
-  const currentPhoto = reducedResults.find(
-    (img) => img.id === Number(context.params.photoId),
-  );
-  currentPhoto.blurDataUrl = await getBase64ImageUrl(currentPhoto);
+    const currentPhoto = reducedResults.find(
+        (img) => img.id === Number(context.params?.photoId)
+    )
+    if (currentPhoto) {
+        currentPhoto.blurDataUrl = await getBase64ImageUrl(currentPhoto)
+    }
+    return {
+        props: {
+            currentPhoto: currentPhoto,
+        },
+    }
 
-  return {
-    props: {
-      currentPhoto: currentPhoto,
-    },
-  };
-};
+    async function getStaticPaths() {
+        const results = await cloudinary.v2.search
+            .expression(`folder:${process.env.CLOUDINARY_FOLDER}/*`)
+            .sort_by("public_id", "desc")
+            .max_results(400)
+            .execute()
 
-export async function getStaticPaths() {
-  const results = await cloudinary.v2.search
-    .expression(`folder:${process.env.CLOUDINARY_FOLDER}/*`)
-    .sort_by("public_id", "desc")
-    .max_results(400)
-    .execute();
+        type StaticPath = {
+            params: {
+                photoId: string
+            }
+        }
 
-  let fullPaths = [];
-  for (let i = 0; i < results.resources.length; i++) {
-    fullPaths.push({ params: { photoId: i.toString() } });
-  }
-
-  return {
-    paths: fullPaths,
-    fallback: false,
-  };
+        let fullPaths: StaticPath[] = []
+        for (let i = 0; i < results.resources.length; i++) {
+            fullPaths.push({ params: { photoId: i.toString() } })
+        }
+        return {
+            paths: fullPaths,
+            fallback: false,
+        }
+    }
 }
